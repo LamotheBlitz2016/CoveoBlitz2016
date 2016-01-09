@@ -37,69 +37,9 @@ public class KillerBot implements SimpleBot {
         DjikistraPath paths = new DjikistraPath(tiles);
         paths.calculate(gameState.getHero().getSpawnPos());
 
-        List<TilePos> p = paths.getBestPath(tiles[gameState.getHero().getSpawnPos().getX()][gameState.getHero().getSpawnPos().getY()],
-                tiles[gameState.getHero().getSpawnPos().getX() + 3][gameState.getHero().getSpawnPos().getY() + 3]);
+        GameState.Position nextPos = paths.getNextPosForBestMine(tiles[gameState.getHero().getPos().getX()][gameState.getHero().getPos().getY()], gameState.getHero().getId());
 
-        //TODO: Define and sort possible objectives
-
-        //TODO: Decision making
-
-/*        List<GameState.Position> neighbours = new ArrayList<>();
-        GameState.Position ouest = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
-        GameState.Position est = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
-        GameState.Position sud  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
-        GameState.Position nord = new GameState.Position(gameState.getHero().getPos().getX() +1, gameState.getHero().getPos().getY());
-
-        if(inBound(sud, gameState) && tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-            if(gameState.getHero().getPos().equals(sud)) {
-                return inverse(this.previous);
-            }
-
-            return  BotMove.SOUTH;
-        }
-
-        if(inBound(nord, gameState) && tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-
-            if(gameState.getHero().getPos().equals(nord)) {
-                return inverse(this.previous);
-            }
-            return  BotMove.NORTH;
-        }
-
-        if(inBound(est, gameState) && tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-
-            if(gameState.getHero().getPos().equals(est)) {
-                return inverse(this.previous);
-            }
-            return  BotMove.EAST;
-        }
-
-        if(inBound(ouest, gameState) && tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-
-            if(gameState.getHero().getPos().equals(ouest)) {
-                return inverse(this.previous);
-            }
-            return  BotMove.WEST;
-        }*/
-
-
-        return randomNumber();
+        return paths.findDirection(gameState.getHero().getPos(), nextPos);
     }
 
     public BotMove randomNumber(BotMove except) {
