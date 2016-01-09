@@ -29,7 +29,7 @@ public class KillerBot implements SimpleBot {
 
         //TODO: Decision making
 
-        List<GameState.Position> neighbours = new ArrayList<>();
+        /*List<GameState.Position> neighbours = new ArrayList<>();
         GameState.Position sud = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
         GameState.Position nord = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
         GameState.Position est  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
@@ -65,7 +65,7 @@ public class KillerBot implements SimpleBot {
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 ){
             return  BotMove.WEST;
-        }
+        }*/
 
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
