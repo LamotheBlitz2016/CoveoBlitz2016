@@ -15,6 +15,7 @@ public class DjikistraPath {
     private TilePos[][] map;
     private static int[][] dist;
 
+
     public DjikistraPath(TilePos[][] map) {
         this.map = map;
         this.previous = new TilePos[map.length][map.length];
@@ -80,7 +81,7 @@ public class DjikistraPath {
         return listPos;
     }
 
-    public  TilePos getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
+    public  Optional<TilePos> getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
         List<TilePos> mines = new LinkedList<>();
 
         for(int x = 0; x < map.length; x++) {
@@ -90,9 +91,8 @@ public class DjikistraPath {
             }
         }
 
-        TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
-
-        return getBestPath(startPoint, bestMine).stream().findFirst().get();
+        Optional<TilePos> bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst();
+        return bestMine.isPresent() ? getBestPath(startPoint, bestMine.get()).stream().findFirst() : bestMine;
 
     }
 
@@ -100,7 +100,7 @@ public class DjikistraPath {
         return getBestPath(startPoint, this.map[hero.getPos().getX()][hero.getPos().getY()]).stream().findFirst().get();
     }
 
-    public  TilePos getNextPosForBestBeer(TilePos startPoint) {
+    public Optional<TilePos> getNextPosForBestBeer(TilePos startPoint) {
         List<TilePos> mines = new LinkedList<>();
 
         for(int x = 0; x < map.length; x++) {
@@ -112,7 +112,7 @@ public class DjikistraPath {
 
         TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
 
-        return getBestPath(startPoint, bestMine).stream().findFirst().get();
+        return getBestPath(startPoint, bestMine).stream().findFirst();
 
     }
 

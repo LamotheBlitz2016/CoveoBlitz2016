@@ -24,6 +24,8 @@ public class KillerBot implements SimpleBot {
                 pos.getY() >= 0 && pos.getY() < state.getGame().getBoard().getSize();
     }
 
+    private boolean isBeering = false;
+
     private BotMove previous = BotMove.STAY;
 
     @Override
@@ -39,19 +41,27 @@ public class KillerBot implements SimpleBot {
         DjikistraPath paths = new DjikistraPath(tiles);
         paths.calculate(gameState.getHero().getPos());
 
-        Optional<GameState.Hero> coveoHero = gameState.getGame().getHeroes().stream().filter(x -> x.getName().equalsIgnoreCase("Brute Force It")).findAny();
+        Optional<GameState.Hero> coveoHero = gameState.getGame().getHeroes().stream().filter(
+                x -> x.getGold() > gameState.getHero().getGold() && x.getLife() < gameState.getHero().getLife() && paths.getBestPath(heroTile, tiles[x.getPos().getX()][x.getPos().getY()]).size() < 4 //Target rich/weak players/close
+        ).findAny();
+
         if(coveoHero.isPresent()){
             return DjikistraPath.findDirection(heroTile, paths.getNextPosForHeroAttack(heroTile, coveoHero.get()));
         }
 
-        TilePos mineTile;
+        Optional<TilePos> mineTile;
         if(gameState.getHero().getLife() > 50) {
             mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
+            if(!mineTile.isPresent()) {
+                mineTile = paths.getNextPosForBestBeer(heroTile);
+            }
+            this.isBeering = false;
         } else {
             mineTile = paths.getNextPosForBestBeer(heroTile);
+            this.isBeering = true;
         }
 
-        BotMove move = DjikistraPath.findDirection(heroTile, mineTile);
+        BotMove move = DjikistraPath.findDirection(heroTile, mineTile.get());
         logger.log(Level.INFO,String.format( "Hero tile: %s", heroTile));
         logger.log(Level.INFO,String.format( "Mine tile: %s", mineTile));
         logger.log(Level.INFO,String.format( "Movement: %s", move));
