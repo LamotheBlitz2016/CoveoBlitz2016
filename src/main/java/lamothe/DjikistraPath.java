@@ -54,7 +54,7 @@ public class DjikistraPath {
                     }
                 }
             }*/
-            Set<GameState.Position> neighbours = new TreeSet<>();
+            List<GameState.Position> neighbours = new LinkedList<>();
             neighbours.add(new GameState.Position(u.getCurrentPos().getX() - 1, u.getCurrentPos().getY() - 1));
             neighbours.add(new GameState.Position(u.getCurrentPos().getX() - 1, u.getCurrentPos().getY() + 1));
             neighbours.add(new GameState.Position(u.getCurrentPos().getX() + 1, u.getCurrentPos().getY() - 1));
