@@ -3,10 +3,7 @@ package lamothe;
 import com.coveo.blitz.client.dto.GameState;
 
 import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by jeremiep on 2016-01-09.
@@ -42,7 +39,7 @@ public class DjikistraPath {
                     dist[p2.getCurrentPos().getX()][p2.getCurrentPos().getY()])).findFirst().get();
             meh.remove(u);
 
-            for (int dx = -1; dx <= 1; ++dx) {
+            /*for (int dx = -1; dx <= 1; ++dx) {
                 for (int dy = -1; dy <= 1; ++dy) {
                     if (dx != 0 || dy != 0) {
                         int neighbour_x = u.getCurrentPos().getX() + dx;
@@ -54,6 +51,20 @@ public class DjikistraPath {
                                 previous[neighbour_x][neighbour_y] = u;
                             }
                         }
+                    }
+                }
+            }*/
+            Set<GameState.Position> neighbours = new TreeSet<>();
+            neighbours.add(new GameState.Position(u.getCurrentPos().getX() - 1, u.getCurrentPos().getY() - 1));
+            neighbours.add(new GameState.Position(u.getCurrentPos().getX() - 1, u.getCurrentPos().getY() + 1));
+            neighbours.add(new GameState.Position(u.getCurrentPos().getX() + 1, u.getCurrentPos().getY() - 1));
+            neighbours.add(new GameState.Position(u.getCurrentPos().getX() + 1, u.getCurrentPos().getY() + 1));
+            for(GameState.Position pos : neighbours) {
+                if(pos.getX() >= 0 && pos.getX() < map.length && pos.getY() >= 0 && pos.getY() < map.length) {
+                    int alt = dist[u.getCurrentPos().getX()][u.getCurrentPos().getY()] + getDistanceFromTile(map[pos.getX()][pos.getY()]);
+                    if(alt < dist[pos.getX()][pos.getY()]) {
+                        dist[pos.getX()][pos.getY()] = alt;
+                        previous[pos.getX()][pos.getY()] = u;
                     }
                 }
             }
