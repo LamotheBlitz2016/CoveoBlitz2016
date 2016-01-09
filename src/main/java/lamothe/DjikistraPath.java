@@ -1,6 +1,6 @@
 package lamothe;
 
-import com.coveo.blitz.client.bot.BotMove;
+import com.coveo.blitz.client.bot.Tile;
 import com.coveo.blitz.client.dto.GameState;
 
 import java.awt.geom.Line2D;
@@ -12,6 +12,7 @@ import java.util.*;
 public class DjikistraPath {
     private TilePos[][] previous = null;
     private TilePos[][] map;
+    private static int[][] dist;
 
     public DjikistraPath(TilePos[][] map) {
         this.map = map;
@@ -23,7 +24,7 @@ public class DjikistraPath {
     }
 
     private static TilePos[][] shortedPath(TilePos[][] map, TilePos startPoint) {
-        int[][] dist = new int[map.length][map.length];
+        dist = new int[map.length][map.length];
         TilePos[][] previous = new TilePos[map.length][map.length];
         LinkedList<TilePos> meh = new LinkedList<>();
         for(int x = 0; x < map.length; x++) {
@@ -61,11 +62,16 @@ public class DjikistraPath {
             neighbours.add(new GameState.Position(u.getCurrentPos().getX() + 1, u.getCurrentPos().getY() - 1));
             neighbours.add(new GameState.Position(u.getCurrentPos().getX() + 1, u.getCurrentPos().getY() + 1));
             for(GameState.Position pos : neighbours) {
+                // if not out of bounds
                 if(pos.getX() >= 0 && pos.getX() < map.length && pos.getY() >= 0 && pos.getY() < map.length) {
-                    int alt = dist[u.getCurrentPos().getX()][u.getCurrentPos().getY()] + getDistanceFromTile(map[pos.getX()][pos.getY()]);
-                    if(alt < dist[pos.getX()][pos.getY()]) {
-                        dist[pos.getX()][pos.getY()] = alt;
-                        previous[pos.getX()][pos.getY()] = u;
+
+                    String tileType = map[pos.getX()][pos.getY()].getCurrentTile().getSymbol();
+                    if (!tileType.equals(Tile.Wall)) {
+                        int alt = dist[u.getCurrentPos().getX()][u.getCurrentPos().getY()] + getDistanceFromTile(map[pos.getX()][pos.getY()]);
+                        if (alt < dist[pos.getX()][pos.getY()]) {
+                            dist[pos.getX()][pos.getY()] = alt;
+                            previous[pos.getX()][pos.getY()] = u;
+                        }
                     }
                 }
             }
@@ -88,29 +94,32 @@ public class DjikistraPath {
         return listPos;
     }
 
-    private static int getDistanceFromTile(TilePos pos) {
-        return 1;
+    public GameState.Position getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
+        List<TilePos> mines = new LinkedList<>();
+
+        for(int x = 0; x < map.length; x++) {
+            for(int y = 0; y < map.length; y++) {
+                if (isWantedMine(map[x][y].getCurrentTile().getSymbol(), playerNumber))
+                    mines.add(map[x][y]);
+            }
+        }
+
+        TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
+
+        return getBestPath(startPoint, bestMine).stream().findFirst().get().getCurrentPos();
+
     }
 
-    public static BotMove findDirection(TilePos pos, TilePos dest){
-
-        if(pos.getCurrentPos().getX() > dest.getCurrentPos().getX()){
-            return BotMove.NORTH;
+    private static boolean isWantedMine(String symbol, Integer playerNumber){
+        if (symbol.startsWith("$")){
+            return !symbol.contains(playerNumber.toString());
+        } else {
+            return false;
         }
+    }
 
-        if(pos.getCurrentPos().getX() < dest.getCurrentPos().getX()){
-            return BotMove.SOUTH;
-        }
-
-        if(pos.getCurrentPos().getY() > dest.getCurrentPos().getY()){
-            return BotMove.WEST;
-        }
-
-        if(pos.getCurrentPos().getY() < dest.getCurrentPos().getY()){
-            return BotMove.EAST;
-        }
-
-        return BotMove.STAY;
+    private static int getDistanceFromTile(TilePos pos) {
+        return 1;
     }
 
 }
