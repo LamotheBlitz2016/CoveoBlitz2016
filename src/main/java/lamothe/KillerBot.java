@@ -32,44 +32,61 @@ public class KillerBot implements SimpleBot {
 
         //TODO: Decision making
 
-        List<GameState.Position> neighbours = new ArrayList<>();
-        GameState.Position ouest = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
-        GameState.Position est = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
-        GameState.Position sud  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
-        GameState.Position nord = new GameState.Position(gameState.getHero().getPos().getX() +1, gameState.getHero().getPos().getY());
+//        List<GameState.Position> neighbours = new ArrayList<>();
+//        GameState.Position ouest = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
+//        GameState.Position est = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
+//        GameState.Position sud  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
+//        GameState.Position nord = new GameState.Position(gameState.getHero().getPos().getX() +1, gameState.getHero().getPos().getY());
+//
+//        if(inBound(sud, gameState) && (tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MineNeutral ||
+//                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+//                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+//                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+//                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer4) && !isOwnerOfMine(gameState.getHero().getId(), tiles[sud.getX()][sud.getY()]) ){
+//            return  BotMove.SOUTH;
+//        }
+//
+//        if(inBound(nord, gameState) && tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
+//                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+//                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+//                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+//                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer4  && !isOwnerOfMine(gameState.getHero().getId(), tiles[nord.getX()][nord.getY()]) ){
+//
+//            return  BotMove.NORTH;
+//        }
+//
+//        if(inBound(est, gameState) && tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
+//                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+//                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+//                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+//                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer4 && !isOwnerOfMine(gameState.getHero().getId(), tiles[est.getX()][est.getY()]) ){
+//
+//            return  BotMove.EAST;
+//        }
+//
+//        if(inBound(ouest, gameState) && tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
+//                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+//                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+//                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+//                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 && !isOwnerOfMine(gameState.getHero().getId(), tiles[ouest.getX()][ouest.getY()]) ){
+//
+//            return  BotMove.WEST;
+//        }
 
-        if(inBound(sud, gameState) && tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-            return  BotMove.SOUTH;
+        return randomMove();
+    }
+
+    public BotMove randomMove(BotMove except) {
+        BotMove move = randomMove();
+        while(move == except) {
+            move = randomMove();
         }
 
-        if(inBound(sud, gameState) && tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-            return  BotMove.NORTH;
-        }
+        return move;
+    }
 
-        if(inBound(sud, gameState) && tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-            return  BotMove.EAST;
-        }
-
-        if(inBound(sud, gameState) && tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer1 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer2 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
-                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 ){
-            return  BotMove.WEST;
-        }
-
+    public BotMove randomMove()
+    {
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
             case 1:
@@ -90,7 +107,20 @@ public class KillerBot implements SimpleBot {
         }
     }
 
-
+    public boolean isOwnerOfMine(int playerId, TilePos mine){
+        switch(playerId){
+            case 1:
+                return mine.getCurrentTile() == Tile.MinePlayer1;
+            case 2:
+                return mine.getCurrentTile() == Tile.MinePlayer2;
+            case 3:
+                return mine.getCurrentTile() == Tile.MinePlayer3;
+            case 4:
+                return mine.getCurrentTile() == Tile.MinePlayer4;
+            default:
+                return false;
+        }
+    }
 
     public void getMines(DjikistraPath paths){
 

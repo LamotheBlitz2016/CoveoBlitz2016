@@ -1,5 +1,6 @@
 package lamothe;
 
+import com.coveo.blitz.client.bot.BotMove;
 import com.coveo.blitz.client.dto.GameState;
 
 import java.awt.geom.Line2D;
@@ -89,6 +90,27 @@ public class DjikistraPath {
 
     private static int getDistanceFromTile(TilePos pos) {
         return 1;
+    }
+
+    public static BotMove findDirection(TilePos pos, TilePos dest){
+
+        if(pos.getCurrentPos().getX() > dest.getCurrentPos().getX()){
+            return BotMove.NORTH;
+        }
+
+        if(pos.getCurrentPos().getX() < dest.getCurrentPos().getX()){
+            return BotMove.SOUTH;
+        }
+
+        if(pos.getCurrentPos().getY() > dest.getCurrentPos().getY()){
+            return BotMove.WEST;
+        }
+
+        if(pos.getCurrentPos().getY() < dest.getCurrentPos().getY()){
+            return BotMove.EAST;
+        }
+
+        return BotMove.STAY;
     }
 
 }
