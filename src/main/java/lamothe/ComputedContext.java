@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -48,7 +47,7 @@ public class ComputedContext {
             return new KillStrategy(this, killWorthyOpponent.get());
         }
 
-        if(gameState.getHero().getLife() > getCockyness(gameState) && LAST_STRATEGY != StrategyType.BEER) {
+        if(gameState.getHero().getLife() > getCockinessLevel(gameState) && LAST_STRATEGY != StrategyType.BEER) {
             LOGGER.log(Level.INFO, "Using mine strategy");
             LAST_STRATEGY = StrategyType.MINE;
             return new MineStrategy(this);
@@ -59,7 +58,13 @@ public class ComputedContext {
         }
     }
 
-    private double getCockyness(GameState state) {
+    /**
+     * Magical function that meticulously calculates the required cockiness level.
+     * @param state
+     * @return cockiness level
+     */
+    private double getCockinessLevel(GameState state) {
+        //NOTE: Do not try to reproduce. Highly statistical method.
         return state.getHero().getMineCount() > 4 ? 50 : 30;
     }
 
