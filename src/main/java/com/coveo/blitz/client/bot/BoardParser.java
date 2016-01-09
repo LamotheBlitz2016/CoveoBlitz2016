@@ -36,8 +36,6 @@ public class BoardParser
 
         TilePos[][] tiles = new TilePos[length][length];
 
-        logger.log(Level.INFO, String.format("Got %d tiles. Length is %d", parsedTiles.size(), length));
-
         for(int j = 0; j< length; j++){
             for(int k = 0; k < length; k++) {
                 tiles[j][k] = new TilePos(parsedTiles.get(j * length + k), new GameState.Position(j, k));
