@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -38,7 +39,7 @@ public class ComputedContext {
     public Strategy getSuitableStrategy(){
 
         Optional<GameState.Hero> killWorthyOpponent = gameState.getGame().getHeroes().stream().filter(
-                x -> x.getMineCount() > gameState.getHero().getMineCount() && x.getLife() < gameState.getHero().getLife() && paths.getBestPath(heroTile, tiles[x.getPos().getX()][x.getPos().getY()]).size() < 2 //Target rich/weak players/close
+                x -> x.getMineCount() > gameState.getHero().getMineCount() && x.getLife() < gameState.getHero().getLife() && paths.getBestPath(heroTile, tiles[x.getPos().getX()][x.getPos().getY()]).size()  < 5 //Target rich/weak players/close
         ).findFirst();
 
         if(killWorthyOpponent.isPresent()){
@@ -47,7 +48,7 @@ public class ComputedContext {
             return new KillStrategy(this, killWorthyOpponent.get());
         }
 
-        if(gameState.getHero().getLife() > 50 && LAST_STRATEGY != StrategyType.BEER) {
+        if(gameState.getHero().getLife() > 30 && LAST_STRATEGY != StrategyType.BEER) {
             LOGGER.log(Level.INFO, "Using mine strategy");
             LAST_STRATEGY = StrategyType.MINE;
             return new MineStrategy(this);
