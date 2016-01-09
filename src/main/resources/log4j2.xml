@@ -8,6 +8,10 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>
+
+    <category name = "com.coveo.blitz.client.bot.BoardParser">
+        <priority value="WARN"/>
+    </category>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>
