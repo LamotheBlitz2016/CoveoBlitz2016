@@ -9,6 +9,7 @@ import com.coveo.blitz.client.dto.Move;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,44 @@ public class KillerBot implements SimpleBot {
 
         //TODO: Decision making
 
+        List<GameState.Position> neighbours = new ArrayList<>();
+        GameState.Position sud = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
+        GameState.Position nord = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
+        GameState.Position est  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
+        GameState.Position ouest = new GameState.Position(gameState.getHero().getPos().getX() +1, gameState.getHero().getPos().getY());
+
+        if(tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MineNeutral ||
+                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+                tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+            return  BotMove.SOUTH;
+        }
+
+        if(tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
+                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+                tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+            return  BotMove.NORTH;
+        }
+
+        if(tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
+                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+                tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+            return  BotMove.EAST;
+        }
+
+        if(tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
+                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer1 ||
+                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer2 ||
+                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
+                tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+            return  BotMove.WEST;
+        }
+
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
             case 1:
@@ -46,6 +85,12 @@ public class KillerBot implements SimpleBot {
                 logger.info("Going nowhere");
                 return BotMove.STAY;
         }
+    }
+
+
+
+    public void getMines(DjikistraPath paths){
+
     }
 
     @Override
