@@ -42,17 +42,6 @@ public class KillerBot implements SimpleBot {
         return DjikistraPath.findDirection(heroTile, mineTile);
     }
 
-    public BotMove move_test(GameState gameState) {
-        //Initial computation on the game state
-        TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
-        DjikistraPath paths = new DjikistraPath(tiles);
-        paths.calculate(gameState.getHero().getSpawnPos());
-
-        GameState.Position nextPos = paths.getNextPosForBestMine(tiles[gameState.getHero().getPos().getX()][gameState.getHero().getPos().getY()], gameState.getHero().getId());
-
-        return paths.findDirection(gameState.getHero().getPos(), nextPos);
-    }
-
     public BotMove randomNumber(BotMove except) {
         BotMove move = randomNumber();
         while(move ==  except) {
