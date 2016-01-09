@@ -21,8 +21,17 @@ public class KillerBot implements SimpleBot {
         return pos.getX() >= 0 && pos.getX() < state.getGame().getBoard().getSize() &&
                 pos.getY() >= 0 && pos.getY() < state.getGame().getBoard().getSize();
     }
+
+    private BotMove previous = BotMove.STAY;
+
     @Override
     public BotMove move(GameState gameState) {
+        this.previous = move_test(gameState);
+
+        return this.previous;
+    }
+
+    public BotMove move_test(GameState gameState) {
         //Initial computation on the game state
         TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
         DjikistraPath paths = new DjikistraPath(tiles);
@@ -43,33 +52,76 @@ public class KillerBot implements SimpleBot {
                 tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer2 ||
                 tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer3 ||
                 tiles[sud.getX()][sud.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+            if(gameState.getHero().getPos().equals(sud)) {
+                return inverse(this.previous);
+            }
+
             return  BotMove.SOUTH;
         }
 
-        if(inBound(sud, gameState) && tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
+        if(inBound(nord, gameState) && tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MineNeutral ||
                 tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer1 ||
                 tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer2 ||
                 tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer3 ||
                 tiles[nord.getX()][nord.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+
+            if(gameState.getHero().getPos().equals(nord)) {
+                return inverse(this.previous);
+            }
             return  BotMove.NORTH;
         }
 
-        if(inBound(sud, gameState) && tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
+        if(inBound(est, gameState) && tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MineNeutral ||
                 tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer1 ||
                 tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer2 ||
                 tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer3 ||
                 tiles[est.getX()][est.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+
+            if(gameState.getHero().getPos().equals(est)) {
+                return inverse(this.previous);
+            }
             return  BotMove.EAST;
         }
 
-        if(inBound(sud, gameState) && tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
+        if(inBound(ouest, gameState) && tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MineNeutral ||
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer1 ||
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer2 ||
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer3 ||
                 tiles[ouest.getX()][ouest.getY()].getCurrentTile() == Tile.MinePlayer4 ){
+
+            if(gameState.getHero().getPos().equals(ouest)) {
+                return inverse(this.previous);
+            }
             return  BotMove.WEST;
         }
 
+        return randomNumber();
+    }
+
+    public BotMove randomNumber(BotMove except) {
+        BotMove move = randomNumber();
+        while(move ==  except) {
+            move = randomNumber();
+        }
+
+        return move;
+    }
+
+    public static BotMove inverse(BotMove move) {
+        if(move == BotMove.EAST) {
+            return BotMove.WEST;
+        } else if(move == BotMove.WEST) {
+            return BotMove.EAST;
+        } else if(move == BotMove.NORTH) {
+            return BotMove.SOUTH;
+        } else if(move == BotMove.SOUTH) {
+            return BotMove.NORTH;
+        } else {
+            return BotMove.STAY;
+        }
+    }
+
+    public BotMove randomNumber() {
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
             case 1:
@@ -89,8 +141,6 @@ public class KillerBot implements SimpleBot {
                 return BotMove.STAY;
         }
     }
-
-
 
     public void getMines(DjikistraPath paths){
 
