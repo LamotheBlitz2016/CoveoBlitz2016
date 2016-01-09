@@ -73,7 +73,7 @@ public class DjikistraPath {
         return previous;
     }
 
-    public List<TilePos> getBestPath(TilePos[][] map, TilePos startPoint, TilePos endPoint) {
+    public List<TilePos> getBestPath(TilePos startPoint, TilePos endPoint) {
         int x = endPoint.getCurrentPos().getX();
         int y = endPoint.getCurrentPos().getY();
         List<TilePos> listPos = new LinkedList<>();
@@ -83,7 +83,7 @@ public class DjikistraPath {
             y = previous[x][y].getCurrentPos().getY();
             listPos.add(previous[x][y]);
         }
-
+        Collections.reverse(listPos);
         return listPos;
     }
 
