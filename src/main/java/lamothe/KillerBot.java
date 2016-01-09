@@ -41,9 +41,9 @@ public class KillerBot implements SimpleBot {
         TilePos mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
 
         BotMove move = DjikistraPath.findDirection(heroTile, mineTile);
-        logger.log(Level.DEBUG,String.format( "Hero tile: %s", heroTile));
-        logger.log(Level.DEBUG,String.format( "Mine tile: %s", heroTile));
-        logger.log(Level.DEBUG,String.format( "Movement: %s", move));
+        logger.log(Level.INFO,String.format( "Hero tile: %s", heroTile));
+        logger.log(Level.INFO,String.format( "Mine tile: %s", heroTile));
+        logger.log(Level.INFO,String.format( "Movement: %s", move));
         return move;
     }
 
