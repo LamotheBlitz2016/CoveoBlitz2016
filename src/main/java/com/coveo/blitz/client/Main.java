@@ -1,6 +1,7 @@
 package com.coveo.blitz.client;
 
 import com.coveo.blitz.client.bot.Tile;
+import lamothe.entities.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +77,7 @@ public class Main
         }
     }
 
-    public static List<Tile> djikistra(Tile[][] map) {
+    public static List<Position> djikistra(Tile[][] map) {
 
     }
 }
