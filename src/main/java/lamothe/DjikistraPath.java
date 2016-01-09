@@ -76,10 +76,11 @@ public class DjikistraPath {
 
         Collections.reverse(listPos);
         listPos.add(endPoint);
+        listPos.remove(0);
         return listPos;
     }
 
-    public GameState.Position getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
+    public TilePos getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
         List<TilePos> mines = new LinkedList<>();
 
         for(int x = 0; x < map.length; x++) {
@@ -91,7 +92,7 @@ public class DjikistraPath {
 
         TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
 
-        return getBestPath(startPoint, bestMine).stream().findFirst().get().getCurrentPos();
+        return getBestPath(startPoint, bestMine).stream().findFirst().get();
 
     }
 
