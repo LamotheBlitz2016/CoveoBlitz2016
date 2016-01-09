@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import com.coveo.blitz.client.dto.GameState;
+import lamothe.TilePos;
 import org.junit.Test;
 
 public class BoardParserTest
@@ -13,38 +15,48 @@ public class BoardParserTest
     @Test
     public void nullValueReturnsEmptyList()
     {
-        assertEquals(0, boardParser.parse(null).size());
+        assertEquals(0, boardParser.parse(null, 0).length);
     }
 
     @Test
     public void emptyValueReturnsEmptyList()
     {
-        assertEquals(0, boardParser.parse("").size());
+        assertEquals(0, boardParser.parse("", 0).length);
     }
 
     @Test
     public void singleSymbolReturnsSingleTile()
     {
-        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##"));
+        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##", 1));
     }
 
     @Test
     public void oddStringLengthReturnsFullPartialList()
     {
-        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##X"));
+        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##X", 1));
     }
 
     @Test
     public void longStringReturnsLotsOfTiles()
     {
-        assertEquals(Arrays.asList(Tile.Wall, Tile.Wall, Tile.Air, Tile.Wall, Tile.MinePlayer1, Tile.Wall),
-                     boardParser.parse("####  ##$1##"));
+        TilePos[][] tiles = boardParser.parse("####  $1", 2);
+        TilePos[][] expected = new TilePos[][]{
+                {new TilePos(Tile.Wall, new GameState.Position(0, 0)), new TilePos(Tile.Wall, new GameState.Position(0, 1))},
+                {new TilePos(Tile.Air, new GameState.Position(1, 0)), new TilePos(Tile.MinePlayer1, new GameState.Position(1, 1))}};
+
+        for(int i =0; i< 2; i++){
+            for(int j=0; j<2; j++) {
+                assertEquals(expected[i][j].getCurrentPos().getX(), tiles[i][j].getCurrentPos().getX());
+                assertEquals(expected[i][j].getCurrentPos().getY(), tiles[i][j].getCurrentPos().getY());
+                assertEquals(expected[i][j].getCurrentTile(), tiles[i][j].getCurrentTile());
+            }
+        }
+
+
     }
 
     @Test
-    public void invalidSymbolReturnsUnknownTile()
-    {
-        assertEquals(Arrays.asList(Tile.UNKNOWN), boardParser.parse("!!"));
-    }
+    public void testParse() throws Exception {
 
+    }
 }
