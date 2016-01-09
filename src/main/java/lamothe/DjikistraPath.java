@@ -96,6 +96,10 @@ public class DjikistraPath {
 
     }
 
+    public TilePos getNextPosForHeroAttack(TilePos startPoint, GameState.Hero hero){
+        return getBestPath(startPoint, this.map[hero.getPos().getX()][hero.getPos().getY()]).stream().findFirst().get();
+    }
+
     public  TilePos getNextPosForBestBeer(TilePos startPoint) {
         List<TilePos> mines = new LinkedList<>();
 
@@ -135,7 +139,7 @@ public class DjikistraPath {
             return 1;
         }
 
-        return 3;
+        return 1;
     }
 
     public static BotMove findDirection(TilePos pos, TilePos dest){

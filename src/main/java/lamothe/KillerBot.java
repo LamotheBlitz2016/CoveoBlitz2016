@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by olivier on 2016-01-09.
@@ -37,6 +38,11 @@ public class KillerBot implements SimpleBot {
         TilePos heroTile = tiles[gameState.getHero().getPos().getX()][gameState.getHero().getPos().getY()];
         DjikistraPath paths = new DjikistraPath(tiles);
         paths.calculate(gameState.getHero().getPos());
+
+        Optional<GameState.Hero> coveoHero = gameState.getGame().getHeroes().stream().filter(x -> x.getName().equalsIgnoreCase("Brute Force It")).findAny();
+        if(coveoHero.isPresent()){
+            return DjikistraPath.findDirection(heroTile, paths.getNextPosForHeroAttack(heroTile, coveoHero.get()));
+        }
 
         TilePos mineTile;
         if(gameState.getHero().getLife() > 50) {
