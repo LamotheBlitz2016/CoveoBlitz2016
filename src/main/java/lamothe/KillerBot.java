@@ -19,13 +19,14 @@ public class KillerBot implements SimpleBot {
 
     @Override
     public BotMove move(GameState gameState) {
-        logger.info("Parsing map");
+        //Initial computation on the game state
         TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
-        logger.info("Parsed map");
-
         DjikistraPath paths = new DjikistraPath(tiles);
         paths.calculate(gameState.getHero().getPos());
 
+        //TODO: Define and sort possible objectives
+
+        //TODO: Decision making
 
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
