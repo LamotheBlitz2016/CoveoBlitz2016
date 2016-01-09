@@ -1,7 +1,6 @@
 package com.coveo.blitz.client;
 
-import com.coveo.blitz.client.bot.Tile;
-import lamothe.entities.Position;
+import com.coveo.blitz.client.lamothe.KillerBot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,7 +45,7 @@ public class Main
             gameUrl = new GameUrl(arena, gameId);
         }
 
-        SimpleBotRunner runner = new SimpleBotRunner(new ApiKey(key), gameUrl, new RandomBot());
+        SimpleBotRunner runner = new SimpleBotRunner(new ApiKey(key), gameUrl, new KillerBot());
         runner.call();
     }
 
@@ -77,7 +76,7 @@ public class Main
         }
     }
 
-    public static List<Position> djikistra(Tile[][] map) {
+    public static List<Tile> djikistra(Tile[][] map) {
 
     }
 }
