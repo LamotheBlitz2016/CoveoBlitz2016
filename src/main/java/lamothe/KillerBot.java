@@ -6,6 +6,7 @@ import com.coveo.blitz.client.bot.SimpleBot;
 import com.coveo.blitz.client.bot.Tile;
 import com.coveo.blitz.client.dto.GameState;
 import com.coveo.blitz.client.dto.Move;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +40,11 @@ public class KillerBot implements SimpleBot {
 
         TilePos mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
 
-        return DjikistraPath.findDirection(heroTile, mineTile);
+        BotMove move = DjikistraPath.findDirection(heroTile, mineTile);
+        logger.log(Level.DEBUG,String.format( "Hero tile: %s", heroTile));
+        logger.log(Level.DEBUG,String.format( "Mine tile: %s", heroTile));
+        logger.log(Level.DEBUG,String.format( "Movement: %s", move));
+        return move;
     }
 
     public BotMove randomNumber(BotMove except) {

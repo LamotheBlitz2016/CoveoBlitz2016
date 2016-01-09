@@ -23,6 +23,11 @@ public class TilePos {
         return this.currentPos.equals(o);
     }
 
+    @Override
+    public String toString() {
+        return String.format("(%d, %d) - %s", currentPos.getX(), currentPos.getY(), currentTile);
+    }
+
     public Tile getCurrentTile() {
         return currentTile;
     }
