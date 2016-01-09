@@ -35,13 +35,16 @@ public class KillerBot implements SimpleBot {
         //Initial computation on the game state
         TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
         DjikistraPath paths = new DjikistraPath(tiles);
-        paths.calculate(gameState.getHero().getPos());
+        paths.calculate(gameState.getHero().getSpawnPos());
+
+        List<TilePos> p = paths.getBestPath(tiles[gameState.getHero().getSpawnPos().getX()][gameState.getHero().getSpawnPos().getY()],
+                tiles[gameState.getHero().getSpawnPos().getX() + 3][gameState.getHero().getSpawnPos().getY() + 3]);
 
         //TODO: Define and sort possible objectives
 
         //TODO: Decision making
 
-        List<GameState.Position> neighbours = new ArrayList<>();
+/*        List<GameState.Position> neighbours = new ArrayList<>();
         GameState.Position ouest = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() -1 );
         GameState.Position est = new GameState.Position(gameState.getHero().getPos().getX(), gameState.getHero().getPos().getY() +1 );
         GameState.Position sud  = new GameState.Position(gameState.getHero().getPos().getX() -1, gameState.getHero().getPos().getY() );
@@ -93,7 +96,8 @@ public class KillerBot implements SimpleBot {
                 return inverse(this.previous);
             }
             return  BotMove.WEST;
-        }
+        }*/
+
 
         return randomNumber();
     }
