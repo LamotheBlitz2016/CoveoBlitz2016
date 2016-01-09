@@ -1,15 +1,12 @@
 package com.coveo.blitz.client;
 
-import lamothe.KillerBot;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.coveo.blitz.client.bot.SimpleBotRunner;
 import com.coveo.blitz.client.dto.ApiKey;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.Strings;
-
-import java.util.List;
+import lamothe.KillerBot;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * CLI program for launching a bot

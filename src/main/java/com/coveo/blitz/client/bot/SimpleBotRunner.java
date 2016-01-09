@@ -1,7 +1,12 @@
 package com.coveo.blitz.client.bot;
 
-import java.util.concurrent.Callable;
-
+import com.coveo.blitz.client.dto.ApiKey;
+import com.coveo.blitz.client.dto.GameState;
+import com.coveo.blitz.client.dto.Move;
+import com.google.api.client.http.*;
+import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.google.api.client.json.JsonObjectParser;
+import com.google.api.client.json.gson.GsonFactory;
 import org.apache.http.conn.params.ConnManagerPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -9,19 +14,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.coveo.blitz.client.dto.ApiKey;
-import com.coveo.blitz.client.dto.GameState;
-import com.coveo.blitz.client.dto.Move;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpContent;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.UrlEncodedContent;
-import com.google.api.client.http.apache.ApacheHttpTransport;
-import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.json.gson.GsonFactory;
+import java.util.concurrent.Callable;
 
 public class SimpleBotRunner implements Callable<GameState>
 {

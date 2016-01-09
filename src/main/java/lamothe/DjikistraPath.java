@@ -4,8 +4,10 @@ import com.coveo.blitz.client.bot.BotMove;
 import com.coveo.blitz.client.bot.Tile;
 import com.coveo.blitz.client.dto.GameState;
 
-import java.awt.geom.Line2D;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jeremiep on 2016-01-09.
