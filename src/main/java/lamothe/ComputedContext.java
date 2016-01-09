@@ -39,7 +39,7 @@ public class ComputedContext {
     public Strategy getSuitableStrategy(){
 
         Optional<GameState.Hero> killWorthyOpponent = gameState.getGame().getHeroes().stream().filter(
-                x -> x.getMineCount() > gameState.getHero().getMineCount() && x.getLife() < gameState.getHero().getLife() && paths.getBestPath(heroTile, tiles[x.getPos().getX()][x.getPos().getY()]).size()  < 5 //Target rich/weak players/close
+                x -> x.getMineCount() > gameState.getHero().getMineCount() && x.getLife() + 25 < gameState.getHero().getLife() && paths.getBestPath(heroTile, tiles[x.getPos().getX()][x.getPos().getY()]).size()  < 5 //Target rich/weak players/close
         ).findFirst();
 
         if(killWorthyOpponent.isPresent()){
