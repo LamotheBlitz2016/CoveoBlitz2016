@@ -48,7 +48,7 @@ public class ComputedContext {
             return new KillStrategy(this, killWorthyOpponent.get());
         }
 
-        if(gameState.getHero().getLife() > 30 && LAST_STRATEGY != StrategyType.BEER) {
+        if(gameState.getHero().getLife() > getCockyness(gameState) && LAST_STRATEGY != StrategyType.BEER) {
             LOGGER.log(Level.INFO, "Using mine strategy");
             LAST_STRATEGY = StrategyType.MINE;
             return new MineStrategy(this);
@@ -57,6 +57,10 @@ public class ComputedContext {
             LAST_STRATEGY = LAST_STRATEGY == StrategyType.BEER && gameState.getHero().getLife() > 75 ? StrategyType.NONE : StrategyType.BEER;
             return new BeerStrategy(this);
         }
+    }
+
+    private double getCockyness(GameState state) {
+        return state.getHero().getMineCount() > 4 ? 50 : 30;
     }
 
     public GameState getGameState() {
