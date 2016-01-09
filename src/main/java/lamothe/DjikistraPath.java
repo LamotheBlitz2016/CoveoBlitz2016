@@ -136,7 +136,7 @@ public class DjikistraPath {
         } else if(pos.getCurrentTile() == Tile.Spikes) {
             return 5;
         } else if(pos.getCurrentTile() == Tile.Tavern) {
-            return 1;
+            return 100;
         }
 
         return 1;
