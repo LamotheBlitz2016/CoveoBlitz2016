@@ -26,9 +26,20 @@ public class KillerBot implements SimpleBot {
 
     @Override
     public BotMove move(GameState gameState) {
-        this.previous = move_test(gameState);
+        return moveMineStrat(gameState);
+    }
 
-        return this.previous;
+    public BotMove moveMineStrat(GameState gameState) {
+        //Initial computation on the game state
+
+        TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
+        TilePos heroTile = tiles[gameState.getHero().getPos().getX()][gameState.getHero().getPos().getY()];
+        DjikistraPath paths = new DjikistraPath(tiles);
+        paths.calculate(gameState.getHero().getPos());
+
+        TilePos mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
+
+        return DjikistraPath.findDirection(heroTile, mineTile);
     }
 
     public BotMove move_test(GameState gameState) {

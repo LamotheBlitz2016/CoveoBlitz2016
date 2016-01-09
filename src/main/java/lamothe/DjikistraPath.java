@@ -73,9 +73,9 @@ public class DjikistraPath {
             x = newX;
             y = newY;
         }
+
         Collections.reverse(listPos);
         listPos.add(endPoint);
-        listPos.remove(0);
         return listPos;
     }
 
@@ -91,7 +91,7 @@ public class DjikistraPath {
 
         TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
 
-        return getBestPath(startPoint, bestMine).get(0).getCurrentPos();
+        return getBestPath(startPoint, bestMine).stream().findFirst().get().getCurrentPos();
 
     }
 
@@ -103,34 +103,8 @@ public class DjikistraPath {
         }
     }
 
-
     private static int getDistanceFromTile(TilePos pos) {
-        if(pos.getCurrentTile() == Tile.Wall) {
-            return 100;
-        } else {
-            return 1;
-        }
-    }
-
-    public static BotMove findDirection(GameState.Position pos, GameState.Position dest){
-
-        if(pos.getX() > dest.getX()){
-            return BotMove.NORTH;
-        }
-
-        if(pos.getX() < dest.getX()){
-            return BotMove.SOUTH;
-        }
-
-        if(pos.getY() > dest.getY()){
-            return BotMove.WEST;
-        }
-
-        if(pos.getY() < dest.getY()){
-            return BotMove.EAST;
-        }
-
-        return BotMove.STAY;
+        return 1;
     }
 
     public static BotMove findDirection(TilePos pos, TilePos dest){

@@ -39,8 +39,6 @@ public class BoardParserTest
                 assertEquals(expected[i][j].getCurrentTile(), tiles[i][j].getCurrentTile());
             }
         }
-
-
     }
 
     @Test
