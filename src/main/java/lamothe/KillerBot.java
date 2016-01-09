@@ -42,7 +42,7 @@ public class KillerBot implements SimpleBot {
 
         BotMove move = DjikistraPath.findDirection(heroTile, mineTile);
         logger.log(Level.INFO,String.format( "Hero tile: %s", heroTile));
-        logger.log(Level.INFO,String.format( "Mine tile: %s", heroTile));
+        logger.log(Level.INFO,String.format( "Mine tile: %s", mineTile));
         logger.log(Level.INFO,String.format( "Movement: %s", move));
         return move;
     }
