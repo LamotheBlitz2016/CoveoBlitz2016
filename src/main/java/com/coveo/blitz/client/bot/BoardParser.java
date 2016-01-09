@@ -1,8 +1,7 @@
 package com.coveo.blitz.client.bot;
 
 import com.coveo.blitz.client.dto.GameState;
-import lamothe.TilePos;
-import org.apache.logging.log4j.Level;
+import lamothe.BoardTile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +12,11 @@ public class BoardParser
 {
     private static final Logger logger = LogManager.getLogger(BoardParser.class);
 
-    public TilePos[][] parse(String unparsedTiles, int length)
+    public BoardTile[][] parse(String unparsedTiles, int length)
     {
         List<Tile> parsedTiles = new ArrayList<>();
         if (unparsedTiles == null) {
-            return new TilePos[0][0];
+            return new BoardTile[0][0];
         }
         int i = 0;
         while (i + 2 <= unparsedTiles.length()) {
@@ -34,11 +33,11 @@ public class BoardParser
             i = i + 2;
         }
 
-        TilePos[][] tiles = new TilePos[length][length];
+        BoardTile[][] tiles = new BoardTile[length][length];
 
         for(int j = 0; j< length; j++){
             for(int k = 0; k < length; k++) {
-                tiles[j][k] = new TilePos(parsedTiles.get(j * length + k), new GameState.Position(j, k));
+                tiles[j][k] = new BoardTile(parsedTiles.get(j * length + k), new GameState.Position(j, k));
             }
         }
         return tiles;

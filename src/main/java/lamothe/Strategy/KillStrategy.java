@@ -3,7 +3,7 @@ package lamothe.Strategy;
 import com.coveo.blitz.client.bot.BotMove;
 import com.coveo.blitz.client.dto.GameState;
 import lamothe.ComputedContext;
-import lamothe.DjikistraPath;
+import lamothe.PathFinder;
 
 /**
  * Created by olivier on 2016-01-09.
@@ -18,7 +18,7 @@ public class KillStrategy extends Strategy {
 
     @Override
     public BotMove getMove() {
-        return DjikistraPath.findDirection(context.getHeroTile(), context.getPaths().getNextPosForHeroAttack(context.getHeroTile(), target));
+        return PathFinder.findDirection(context.getHeroTile(), context.getPaths().getNextPosForHeroAttack(context.getHeroTile(), target));
     }
 
 

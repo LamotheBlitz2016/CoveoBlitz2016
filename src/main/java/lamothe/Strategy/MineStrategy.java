@@ -2,8 +2,8 @@ package lamothe.Strategy;
 
 import com.coveo.blitz.client.bot.BotMove;
 import lamothe.ComputedContext;
-import lamothe.DjikistraPath;
-import lamothe.TilePos;
+import lamothe.PathFinder;
+import lamothe.BoardTile;
 
 import java.util.Optional;
 
@@ -18,9 +18,9 @@ public class MineStrategy extends Strategy {
 
     @Override
     public BotMove getMove() {
-        Optional<TilePos> mineTile = context.getPaths().getNextPosForBestMine(context.getHeroTile(),context.getGameState().getHero().getId());
+        Optional<BoardTile> mineTile = context.getPaths().getNextPosForBestMine(context.getHeroTile(),context.getGameState().getHero().getId());
         if(mineTile.isPresent()){
-            return DjikistraPath.findDirection(context.getHeroTile(), mineTile.get());
+            return PathFinder.findDirection(context.getHeroTile(), mineTile.get());
         }
         else {
             return new BeerStrategy(context).getMove();

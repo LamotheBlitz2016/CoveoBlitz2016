@@ -6,11 +6,11 @@ import com.coveo.blitz.client.dto.GameState;
 /**
  * Created by jeremiep on 2016-01-09.
  */
-public class TilePos {
+public class BoardTile {
     private Tile currentTile;
     private GameState.Position currentPos;
 
-    public TilePos(Tile tile, GameState.Position pos) {
+    public BoardTile(Tile tile, GameState.Position pos) {
         this.setCurrentTile(tile);
         this.setCurrentPos(pos);
     }

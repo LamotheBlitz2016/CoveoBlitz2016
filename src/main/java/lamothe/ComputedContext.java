@@ -23,15 +23,15 @@ public class ComputedContext {
     }
     private static StrategyType LAST_STRATEGY = StrategyType.NONE;
     private GameState gameState;
-    private DjikistraPath paths;
-    private TilePos heroTile;
-    private TilePos[][] tiles;
+    private PathFinder paths;
+    private BoardTile heroTile;
+    private BoardTile[][] tiles;
 
     public ComputedContext(GameState gameState){
         this.gameState = gameState;
         tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
         heroTile = tiles[gameState.getHero().getPos().getX()][gameState.getHero().getPos().getY()];
-        paths = new DjikistraPath(tiles);
+        paths = new PathFinder(tiles);
         paths.calculate(gameState.getHero().getPos());
     }
 
@@ -62,15 +62,15 @@ public class ComputedContext {
         return gameState;
     }
 
-    public TilePos getHeroTile() {
+    public BoardTile getHeroTile() {
         return heroTile;
     }
 
-    public DjikistraPath getPaths() {
+    public PathFinder getPaths() {
         return paths;
     }
 
-    public TilePos[][] getTiles() {
+    public BoardTile[][] getTiles() {
         return tiles;
     }
 }

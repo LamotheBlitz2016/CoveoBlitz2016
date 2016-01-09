@@ -12,25 +12,25 @@ import java.util.Optional;
 /**
  * Created by jeremiep on 2016-01-09.
  */
-public class DjikistraPath {
-    private TilePos[][] previous = null;
-    private TilePos[][] map;
+public class PathFinder {
+    private BoardTile[][] previous = null;
+    private BoardTile[][] map;
     private static int[][] dist;
 
 
-    public DjikistraPath(TilePos[][] map) {
+    public PathFinder(BoardTile[][] map) {
         this.map = map;
-        this.previous = new TilePos[map.length][map.length];
+        this.previous = new BoardTile[map.length][map.length];
     }
 
     public void calculate(GameState.Position startingPoint) {
-        this.previous = shortedPath(this.map, new TilePos(map[startingPoint.getX()][startingPoint.getY()].getCurrentTile(), startingPoint));
+        this.previous = shortedPath(this.map, new BoardTile(map[startingPoint.getX()][startingPoint.getY()].getCurrentTile(), startingPoint));
     }
 
-    private TilePos[][] shortedPath(TilePos[][] map, TilePos startPoint) {
-        this.previous = new TilePos[map.length][map.length];
+    private BoardTile[][] shortedPath(BoardTile[][] map, BoardTile startPoint) {
+        this.previous = new BoardTile[map.length][map.length];
         this.dist = new int[map.length][map.length];
-        LinkedList<TilePos> Q = new LinkedList<>();
+        LinkedList<BoardTile> Q = new LinkedList<>();
         for(int x = 0; x < map.length; x++) {
             for(int y = 0; y < map.length; y++) {
                 this.dist[x][y] = Integer.MAX_VALUE;
@@ -41,7 +41,7 @@ public class DjikistraPath {
 
         this.dist[startPoint.getCurrentPos().getX()][startPoint.getCurrentPos().getY()] = 0;
         while(!Q.isEmpty()) {
-            TilePos u = Q.stream().sorted((p1, p2) -> Integer.compare(dist[p1.getCurrentPos().getX()][p1.getCurrentPos().getY()],
+            BoardTile u = Q.stream().sorted((p1, p2) -> Integer.compare(dist[p1.getCurrentPos().getX()][p1.getCurrentPos().getY()],
                     dist[p2.getCurrentPos().getX()][p2.getCurrentPos().getY()])).findFirst().get();
             Q.remove(u);
 
@@ -64,10 +64,10 @@ public class DjikistraPath {
         return this.previous;
     }
 
-    public List<TilePos> getBestPath(TilePos startPoint, TilePos endPoint) {
+    public List<BoardTile> getBestPath(BoardTile startPoint, BoardTile endPoint) {
         int x = endPoint.getCurrentPos().getX();
         int y = endPoint.getCurrentPos().getY();
-        List<TilePos> listPos = new LinkedList<>();
+        List<BoardTile> listPos = new LinkedList<>();
 
         while (this.previous[x][y] != null){
             int newX = previous[x][y].getCurrentPos().getX();
@@ -83,8 +83,8 @@ public class DjikistraPath {
         return listPos;
     }
 
-    public  Optional<TilePos> getNextPosForBestMine(TilePos startPoint, Integer playerNumber) {
-        List<TilePos> mines = new LinkedList<>();
+    public  Optional<BoardTile> getNextPosForBestMine(BoardTile startPoint, Integer playerNumber) {
+        List<BoardTile> mines = new LinkedList<>();
 
         for(int x = 0; x < map.length; x++) {
             for(int y = 0; y < map.length; y++) {
@@ -93,17 +93,17 @@ public class DjikistraPath {
             }
         }
 
-        Optional<TilePos> bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst();
+        Optional<BoardTile> bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst();
         return bestMine.isPresent() ? getBestPath(startPoint, bestMine.get()).stream().findFirst() : bestMine;
 
     }
 
-    public TilePos getNextPosForHeroAttack(TilePos startPoint, GameState.Hero hero){
+    public BoardTile getNextPosForHeroAttack(BoardTile startPoint, GameState.Hero hero){
         return getBestPath(startPoint, this.map[hero.getPos().getX()][hero.getPos().getY()]).stream().findFirst().get();
     }
 
-    public Optional<TilePos> getNextPosForBestBeer(TilePos startPoint) {
-        List<TilePos> mines = new LinkedList<>();
+    public Optional<BoardTile> getNextPosForBestBeer(BoardTile startPoint) {
+        List<BoardTile> mines = new LinkedList<>();
 
         for(int x = 0; x < map.length; x++) {
             for(int y = 0; y < map.length; y++) {
@@ -112,7 +112,7 @@ public class DjikistraPath {
             }
         }
 
-        TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
+        BoardTile bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
 
         return getBestPath(startPoint, bestMine).stream().findFirst();
 
@@ -130,7 +130,7 @@ public class DjikistraPath {
         return Tile.Tavern.getSymbol().equalsIgnoreCase(symbol);
     }
 
-    private int getDistanceFromTile(TilePos pos) {
+    private int getDistanceFromTile(BoardTile pos) {
         if(pos.getCurrentTile() == Tile.Wall) {
             return 100;
         } else if(pos.getCurrentTile().getSymbol().startsWith("$")) {
@@ -144,7 +144,7 @@ public class DjikistraPath {
         return 1;
     }
 
-    public static BotMove findDirection(TilePos pos, TilePos dest){
+    public static BotMove findDirection(BoardTile pos, BoardTile dest){
 
         if(pos.getCurrentPos().getX() > dest.getCurrentPos().getX()){
             return BotMove.NORTH;

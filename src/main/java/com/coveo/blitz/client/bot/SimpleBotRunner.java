@@ -68,7 +68,6 @@ public class SimpleBotRunner implements Callable<GameState>
             while (!gameState.getGame().isFinished() && !gameState.getHero().isCrashed()) {
                 logger.info("Taking turn " + gameState.getGame().getTurn());
                 BotMove direction = bot.move(gameState);
-                //logger.info(String.format("Git direction: %s", direction));
                 Move move = new Move(apiKey.getKey(), direction.toString());
 
                 HttpContent turn = new UrlEncodedContent(move);

@@ -2,10 +2,8 @@ package com.coveo.blitz.client.bot;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
 import com.coveo.blitz.client.dto.GameState;
-import lamothe.TilePos;
+import lamothe.BoardTile;
 import org.junit.Test;
 
 public class BoardParserTest
@@ -27,10 +25,10 @@ public class BoardParserTest
     @Test
     public void longStringReturnsLotsOfTiles()
     {
-        TilePos[][] tiles = boardParser.parse("####  $1", 2);
-        TilePos[][] expected = new TilePos[][]{
-                {new TilePos(Tile.Wall, new GameState.Position(0, 0)), new TilePos(Tile.Wall, new GameState.Position(0, 1))},
-                {new TilePos(Tile.Air, new GameState.Position(1, 0)), new TilePos(Tile.MinePlayer1, new GameState.Position(1, 1))}};
+        BoardTile[][] tiles = boardParser.parse("####  $1", 2);
+        BoardTile[][] expected = new BoardTile[][]{
+                {new BoardTile(Tile.Wall, new GameState.Position(0, 0)), new BoardTile(Tile.Wall, new GameState.Position(0, 1))},
+                {new BoardTile(Tile.Air, new GameState.Position(1, 0)), new BoardTile(Tile.MinePlayer1, new GameState.Position(1, 1))}};
 
         for(int i =0; i< 2; i++){
             for(int j=0; j<2; j++) {
