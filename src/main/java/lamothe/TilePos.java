@@ -15,6 +15,14 @@ public class TilePos {
         this.setCurrentPos(pos);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return this.currentPos.equals(o);
+    }
+
     public Tile getCurrentTile() {
         return currentTile;
     }
