@@ -1,4 +1,4 @@
-package com.coveo.blitz.client.lamothe;
+package lamothe;
 
 import com.coveo.blitz.client.bot.BoardParser;
 import com.coveo.blitz.client.bot.BotMove;
@@ -16,9 +16,7 @@ public class KillerBot implements SimpleBot {
 
     @Override
     public BotMove move(GameState gameState) {
-        List<Tile> tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles());
-        final int BOARD_LENGHT =  gameState.getGame().getBoard().getSize();
-        Tile[][] aTiles = new Tile[BOARD_LENGHT][BOARD_LENGHT];
+        TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
 
         return null;
     }

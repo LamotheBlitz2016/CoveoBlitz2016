@@ -1,10 +1,9 @@
 package com.coveo.blitz.client;
 
-import com.coveo.blitz.client.lamothe.KillerBot;
+import lamothe.KillerBot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.coveo.blitz.client.bot.RandomBot;
 import com.coveo.blitz.client.bot.SimpleBotRunner;
 import com.coveo.blitz.client.dto.ApiKey;
 import com.google.api.client.http.GenericUrl;
@@ -74,9 +73,5 @@ public class Main
         {
             return new GameUrl(TRAINING_URL, "");
         }
-    }
-
-    public static List<Tile> djikistra(Tile[][] map) {
-
     }
 }

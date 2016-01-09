@@ -1,15 +1,18 @@
 package com.coveo.blitz.client.bot;
 
+import com.coveo.blitz.client.dto.GameState;
+import lamothe.TilePos;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardParser
 {
-    public List<Tile> parse(String unparsedTiles)
+    public TilePos[][] parse(String unparsedTiles, int length)
     {
         List<Tile> parsedTiles = new ArrayList<>();
         if (unparsedTiles == null) {
-            return parsedTiles;
+            return new TilePos[0][0];
         }
         int i = 0;
         while (i + 2 <= unparsedTiles.length()) {
@@ -26,7 +29,14 @@ public class BoardParser
             i = i + 2;
         }
 
-        return parsedTiles;
+        TilePos[][] tiles = new TilePos[length][length];
+
+        for(int j = 0; j< length; j++){
+            for(int k = 0; k < length; k++) {
+                tiles[j][k] = new TilePos(parsedTiles.get(j * length + k), new GameState.Position(j, k));
+            }
+        }
+        return tiles;
     }
 
 }
