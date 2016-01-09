@@ -22,6 +22,10 @@ public class KillerBot implements SimpleBot {
         logger.info("Parsing map");
         TilePos[][] tiles = new BoardParser().parse(gameState.getGame().getBoard().getTiles(), gameState.getGame().getBoard().getSize());
         logger.info("Parsed map");
+
+//        DjikistraPath paths = new DjikistraPath(tiles);
+//        paths.calculate(gameState.getHero().getPos());
+
         int randomNumber = (int)(Math.random() * 5);
         switch(randomNumber) {
             case 1:

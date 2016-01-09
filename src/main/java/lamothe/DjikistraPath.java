@@ -20,8 +20,8 @@ public class DjikistraPath {
         this.previous = new TilePos[map.length][map.length];
     }
 
-    public void calculate(TilePos startingPoint) {
-        this.previous = shortedPath(this.map, startingPoint);
+    public void calculate(GameState.Position startingPoint) {
+        this.previous = shortedPath(this.map, new TilePos(map[startingPoint.getX()][startingPoint.getY()].getCurrentTile(), startingPoint));
     }
 
     private static TilePos[][] shortedPath(TilePos[][] map, TilePos startPoint) {

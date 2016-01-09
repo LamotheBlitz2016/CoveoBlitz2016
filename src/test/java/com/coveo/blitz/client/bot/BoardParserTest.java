@@ -25,18 +25,6 @@ public class BoardParserTest
     }
 
     @Test
-    public void singleSymbolReturnsSingleTile()
-    {
-        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##", 1));
-    }
-
-    @Test
-    public void oddStringLengthReturnsFullPartialList()
-    {
-        assertEquals(Arrays.asList(Tile.Wall), boardParser.parse("##X", 1));
-    }
-
-    @Test
     public void longStringReturnsLotsOfTiles()
     {
         TilePos[][] tiles = boardParser.parse("####  $1", 2);
