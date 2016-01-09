@@ -76,6 +76,7 @@ public class DjikistraPath {
 
         Collections.reverse(listPos);
         listPos.add(endPoint);
+        listPos.remove(0);
         return listPos;
     }
 
@@ -103,8 +104,18 @@ public class DjikistraPath {
         }
     }
 
-    private static int getDistanceFromTile(TilePos pos) {
-        return 1;
+    private int getDistanceFromTile(TilePos pos) {
+        if(pos.getCurrentTile() == Tile.Wall) {
+            return 100;
+        } else if(pos.getCurrentTile().getSymbol().startsWith("$")) {
+            return 100;
+        } else if(pos.getCurrentTile() == Tile.Spikes) {
+            return 5;
+        } else if(pos.getCurrentTile() == Tile.Tavern) {
+            return 1;
+        }
+
+        return 3;
     }
 
     public static BotMove findDirection(TilePos pos, TilePos dest){
