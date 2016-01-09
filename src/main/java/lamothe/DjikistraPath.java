@@ -3,10 +3,7 @@ package lamothe;
 import com.coveo.blitz.client.dto.GameState;
 
 import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by jeremiep on 2016-01-09.
@@ -62,7 +59,7 @@ public class DjikistraPath {
         return previous;
     }
 
-    public List<TilePos> getBestPath(TilePos[][] map, TilePos startPoint, TilePos endPoint) {
+    public List<TilePos> getBestPath(TilePos startPoint, TilePos endPoint) {
         int x = endPoint.getCurrentPos().getX();
         int y = endPoint.getCurrentPos().getY();
         List<TilePos> listPos = new LinkedList<>();
@@ -72,7 +69,7 @@ public class DjikistraPath {
             y = previous[x][y].getCurrentPos().getY();
             listPos.add(previous[x][y]);
         }
-
+        Collections.reverse(listPos);
         return listPos;
     }
 
