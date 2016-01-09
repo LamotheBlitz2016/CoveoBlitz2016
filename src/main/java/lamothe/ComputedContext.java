@@ -6,6 +6,9 @@ import lamothe.Strategy.BeerStrategy;
 import lamothe.Strategy.KillStrategy;
 import lamothe.Strategy.MineStrategy;
 import lamothe.Strategy.Strategy;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -14,7 +17,8 @@ import java.util.Optional;
  */
 public class ComputedContext {
 
-    private static enum StrategyType {
+    private static final Logger LOGGER = LogManager.getLogger(ComputedContext.class);
+    private enum StrategyType {
         BEER, KILL, MINE, NONE
     }
     private static StrategyType LAST_STRATEGY = StrategyType.NONE;
@@ -38,14 +42,17 @@ public class ComputedContext {
         ).findFirst();
 
         if(killWorthyOpponent.isPresent()){
+            LOGGER.log(Level.INFO, "Using kill strategy");
             LAST_STRATEGY = StrategyType.KILL;
             return new KillStrategy(this, killWorthyOpponent.get());
         }
 
         if(gameState.getHero().getLife() > 50 && LAST_STRATEGY != StrategyType.BEER) {
+            LOGGER.log(Level.INFO, "Using mine strategy");
             LAST_STRATEGY = StrategyType.MINE;
             return new MineStrategy(this);
         } else {
+            LOGGER.log(Level.INFO, "Using beer strategy");
             LAST_STRATEGY = LAST_STRATEGY == StrategyType.BEER && gameState.getHero().getLife() > 75 ? StrategyType.NONE : StrategyType.BEER;
             return new BeerStrategy(this);
         }
