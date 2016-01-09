@@ -96,12 +96,32 @@ public class DjikistraPath {
 
     }
 
+    public  TilePos getNextPosForBestBeer(TilePos startPoint) {
+        List<TilePos> mines = new LinkedList<>();
+
+        for(int x = 0; x < map.length; x++) {
+            for(int y = 0; y < map.length; y++) {
+                if (isBeer(map[x][y].getCurrentTile().getSymbol()))
+                    mines.add(map[x][y]);
+            }
+        }
+
+        TilePos bestMine = mines.stream().sorted((m1, m2) -> Integer.compare(dist[m1.getCurrentPos().getX()][m1.getCurrentPos().getY()], dist[m2.getCurrentPos().getX()][m2.getCurrentPos().getY()])).findFirst().get();
+
+        return getBestPath(startPoint, bestMine).stream().findFirst().get();
+
+    }
+
     private static boolean isWantedMine(String symbol, Integer playerNumber){
         if (symbol.startsWith("$")){
             return !symbol.contains(playerNumber.toString());
         } else {
             return false;
         }
+    }
+
+    private static boolean isBeer(String symbol) {
+        return Tile.Tavern.getSymbol().equalsIgnoreCase(symbol);
     }
 
     private int getDistanceFromTile(TilePos pos) {

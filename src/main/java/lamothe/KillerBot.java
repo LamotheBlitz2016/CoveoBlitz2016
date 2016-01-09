@@ -38,7 +38,12 @@ public class KillerBot implements SimpleBot {
         DjikistraPath paths = new DjikistraPath(tiles);
         paths.calculate(gameState.getHero().getPos());
 
-        TilePos mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
+        TilePos mineTile;
+        if(gameState.getHero().getLife() > 50) {
+            mineTile = paths.getNextPosForBestMine(heroTile,gameState.getHero().getId());
+        } else {
+            mineTile = paths.getNextPosForBestBeer(heroTile);
+        }
 
         BotMove move = DjikistraPath.findDirection(heroTile, mineTile);
         logger.log(Level.INFO,String.format( "Hero tile: %s", heroTile));
